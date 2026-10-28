@@ -252,6 +252,10 @@ init().catch(e => app.innerHTML = `<div class="card">Could not load: ${esc(e.mes
 
 // ---- move + ask for a sub-name when a blank dish lands on a person ----
 async function moveItem(body) {
+  // Commit any unsaved inline edit on this dish first (a pointerdown on the handle keeps the input focused, so blur never fires).
+  const inp = document.querySelector(`.item:not(.ghostDrag)[data-id="${body.item}"] input`);
+  const c0 = cur.items.find(i => i.id === body.item);
+  if (inp && c0 && inp.value.trim() !== String(c0.sub || '').trim()) { editing = false; await act('sub', { item: c0.id, sub: inp.value }); }
   const ok = await act('move', body);
   if (!ok || !body.owner) return;
   const it = cur.items.find(i => i.id === body.item);
