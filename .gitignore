@@ -1,0 +1,10 @@
+# secrets and server-only data -- never commit
+.env
+*.env
+priv/
+potluck-private/
+config.php
+config.php.bak-*
+data/
+node_modules/
+*.bak-*
